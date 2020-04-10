@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using TickTacToe.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
@@ -24,10 +25,13 @@ namespace TickTackToe.Views
     /// </summary>
     public sealed partial class GamePage : Page
     {
+        public GameViewModel ViewModel { get; private set; } = new GameViewModel();
+
         public GamePage()
         {
             this.InitializeComponent();
-            this.SizeChanged += UpdateSize;
+            this.ViewModel.Initialize(this);
+            this.SizeChanged += this.UpdateSize;
         }
 
         /// <summary>
@@ -38,8 +42,8 @@ namespace TickTackToe.Views
         private void UpdateSize(object sender, SizeChangedEventArgs e)
         {
             var boadSize = (int)(this.ActualHeight >= this.ActualWidth ? this.ActualWidth : this.ActualHeight) - 50 ;
-            CenterColumnDefinition.Width = new GridLength(boadSize);
-            CenterRowDefinition.Height = new GridLength(boadSize);
+            this.CenterColumnDefinition.Width = new GridLength(boadSize);
+            this.CenterRowDefinition.Height = new GridLength(boadSize);
         }
     }
 }

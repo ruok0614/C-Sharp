@@ -19,12 +19,31 @@ namespace TickTackToe.Models
             Start();
         }
 
+        public TicTacPiece.Type GetPieceContent(int x, int y)
+        {
+            return this.board.GetPiece(x,y).Content;
+        }
+
         public void Start()
         {
         }
 
-        public void SetPiece(int x, int y, TicTacPiece piece)
+        public void SetPiece(int x, int y, TicTacPiece.Type type)
         {
+            var piece = null as TicTacPiece;
+            switch(type)
+            {
+                case TicTacPiece.Type.None:
+                    piece = TicTacPiece.CreateNone();
+                    break;
+                case TicTacPiece.Type.Cross:
+                    piece = TicTacPiece.CreateCross();
+                    break;
+                case TicTacPiece.Type.Round:
+                    piece = TicTacPiece.CreateRound();
+                    break;
+            }
+
             if (!board.SetPeace(x, y, piece))
             {
                 // 駒が置けない
@@ -51,7 +70,7 @@ namespace TickTackToe.Models
                     continue;
                 }
                 var count = 1;
-                while (piece.Content == board.GetPiece(xx,yy))
+                while (piece.Content == board.GetPiece(xx,yy).Content)
                 {
                     count++;
                     xx += TicTacBoard.ALL_DIRECTION[d, TicTacBoard.X];
@@ -76,7 +95,7 @@ namespace TickTackToe.Models
                 return true;
             }
 
-            if(board.GetPiece(x,y) == TicTacPiece.Type.None)
+            if(board.GetPiece(x,y).Content == TicTacPiece.Type.None)
             {
                 return true;
             }

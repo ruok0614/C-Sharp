@@ -2,6 +2,9 @@
     x:Class="TickTackToe.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:TickTackToe">
+    xmlns:local="using:TickTackToe"
+	xmlns:viewmodels = "using:TickTackToe.ViewModels"
+	xmlns:views = "using:TickTackToe.Views"
+	>
 
 </Application>

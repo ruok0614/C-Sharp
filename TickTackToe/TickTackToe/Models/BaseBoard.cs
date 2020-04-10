@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TickTackToe.Models
 {
-    public abstract class BaseBoard<T>
+    public abstract class BaseBoard<T> 
     {
         public static readonly int DIRECTION_NUM = 8;
         public static readonly int X = 1;
@@ -44,9 +44,9 @@ namespace TickTackToe.Models
             Initialize();
         }
 
-        public T GetPiece(int x,int y)
+        public IPiece<T> GetPiece(int x,int y)
         {
-            return board[y, x].Content;
+            return board[y, x];
         }
 
         /// <summary>

@@ -5,45 +5,52 @@
     xmlns:local="using:TickTackToe.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+	xmlns:controls="using:TickTacToe.Views.Controls"
+	mc:Ignorable="d"
     Background="#7fffd4">
 
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="6*" x:Name="CenterColumnDefinition"/>
-            <ColumnDefinition Width="1*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="6*" x:Name="CenterRowDefinition"/>
-            <RowDefinition Height="1*"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Column="1" Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Grid.Column="0" Background="AliceBlue" Grid.ColumnSpan="2"/>
-            <Grid Grid.Row="0" Grid.Column="2" Background="AntiqueWhite"></Grid>
-            <Grid Grid.Row="0" Grid.Column="3" Background="Aqua"></Grid>
-            <Grid Grid.Row="1" Grid.Column="0" Background="Aquamarine"></Grid>
-            <Grid Grid.Row="1" Grid.Column="1" Background="Azure"></Grid>
-            <Grid Grid.Row="1" Grid.Column="2" Background="Beige"></Grid>
-            <Grid Grid.Row="2" Grid.Column="0" Background="Bisque"></Grid>
-            <Grid Grid.Row="2" Grid.Column="2" Background="Coral"></Grid>
-            <Grid Grid.Row="2" Grid.Column="3" Background="BurlyWood"></Grid>
-            <Line  X2="1" Stretch="Fill" Stroke="Black" StrokeThickness="10" VerticalAlignment="Bottom" Grid.ColumnSpan="3" Grid.RowSpan="1" />
-            <Line  X2="1" Stretch="Fill" Stroke="Black" StrokeThickness="10" VerticalAlignment="Bottom" Grid.ColumnSpan="3" Grid.RowSpan="2" />
-            <Line  Y2="1" Stretch="Fill" Stroke="Black" StrokeThickness="10" HorizontalAlignment="Right" Grid.ColumnSpan="1" Grid.RowSpan="3" />
-            <Line  Y2="1" Stretch="Fill" Stroke="Black" StrokeThickness="10" HorizontalAlignment="Right" Grid.ColumnSpan="2" Grid.RowSpan="3" />
-        </Grid>
-    </Grid>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="1*" />
+			<ColumnDefinition Width="6*" x:Name="CenterColumnDefinition"/>
+			<ColumnDefinition Width="1*"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="1*"/>
+			<RowDefinition Height="6*" x:Name="CenterRowDefinition"/>
+			<RowDefinition Height="1*"/>
+		</Grid.RowDefinitions>
+		<Grid Grid.Column="1" Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="1*"/>
+				<ColumnDefinition Width="1*"/>
+				<ColumnDefinition Width="1*"/>
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="1*"/>
+				<RowDefinition Height="1*"/>
+				<RowDefinition Height="1*"/>
+			</Grid.RowDefinitions>
+			<Grid Grid.Row="0" Grid.Column="0" Background="AliceBlue">
+				<controls:PiceButton Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Type="{Binding Type}"/>
+			</Grid>
+			<Grid Grid.Row="0" Grid.Column="1" Background="AntiqueWhite">
+				<controls:PiceButton Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+			</Grid>
+			<Grid Grid.Row="0" Grid.Column="2" Background="Aqua">
+				<controls:PiceButton Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+			</Grid>
+			<Grid Grid.Row="1" Grid.Column="0" Background="Aquamarine"></Grid>
+			<Grid Grid.Row="1" Grid.Column="1" Background="Azure"></Grid>
+			<Grid Grid.Row="1" Grid.Column="2" Background="Beige"></Grid>
+			<Grid Grid.Row="2" Grid.Column="0" Background="Bisque"></Grid>
+			<Grid Grid.Row="2" Grid.Column="1" Background="Coral"></Grid>
+			<Grid Grid.Row="2" Grid.Column="2" Background="BurlyWood"></Grid>
+			<Line  X2="1" Stretch="Fill" Stroke="Black" StrokeThickness="10" VerticalAlignment="Bottom" Grid.ColumnSpan="3" Grid.RowSpan="1" />
+			<Line  X2="1" Stretch="Fill" Stroke="Black" StrokeThickness="10" VerticalAlignment="Bottom" Grid.ColumnSpan="3" Grid.RowSpan="2" />
+			<Line  Y2="1" Stretch="Fill" Stroke="Black" StrokeThickness="10" HorizontalAlignment="Right" Grid.ColumnSpan="1" Grid.RowSpan="3" />
+			<Line  Y2="1" Stretch="Fill" Stroke="Black" StrokeThickness="10" HorizontalAlignment="Right" Grid.ColumnSpan="2" Grid.RowSpan="3" />
+		</Grid>
+	</Grid>
 </Page>

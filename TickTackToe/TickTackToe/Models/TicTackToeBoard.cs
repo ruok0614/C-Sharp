@@ -24,9 +24,9 @@ namespace TickTackToe.Models
             }
         }
 
-        public override bool SetPeace(int x, int y,IPiece<TicTacPiece.Type> piece)
+        public override bool SetPeace(int x, int y, IPiece<TicTacPiece.Type> piece)
         {
-            if(GetPiece(x,y) != TicTacPiece.Type.None)
+            if(GetPiece(x, y).Content != TicTacPiece.Type.None)
             {
                 return false;
             }
