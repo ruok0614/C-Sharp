@@ -41,6 +41,7 @@ namespace TickTackToe.Models
         {
             this.Width = width;
             this.Height = height;
+            this.board = new IPiece<T>[height, width];
             Initialize();
         }
 

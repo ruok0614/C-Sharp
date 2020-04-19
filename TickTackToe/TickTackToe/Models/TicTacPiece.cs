@@ -11,6 +11,8 @@ namespace TickTackToe.Models
     /// </summary>
     public class TicTacPiece : IPiece<TicTacPiece.Type>
     {
+
+        private TicTacPiece.Type content;
         /// <summary>
         /// 〇を作成します．
         /// </summary>
@@ -44,12 +46,11 @@ namespace TickTackToe.Models
         /// <param name="tic"></param>
         private TicTacPiece(Type tic)
         {
-            Content = tic;
+            content = tic;
         }
 
         public Type Content {
-            get => Content;
-            private set { }
+            get => content;
          }
 
 
@@ -58,13 +59,14 @@ namespace TickTackToe.Models
         /// </summary>
         public enum Type
         {
+            //ない
+            None,
         　// 〇
         　Round,
         　// ×
-            Cross,
-            //ない
-            None
-        }
+            Cross
            
+        }
+
     }
 }

@@ -31,6 +31,8 @@ namespace TickTackToe.Views
         {
             this.InitializeComponent();
             this.ViewModel.Initialize(this);
+            this.ViewModel.DialogService = new TickTacToe.Views.Messengers.DialogService();
+            this.DataContext = this.ViewModel;
             this.SizeChanged += this.UpdateSize;
         }
 

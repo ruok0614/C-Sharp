@@ -1,4 +1,7 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Messaging;
+using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,8 +11,8 @@ using System.Threading.Tasks;
 
 namespace TickTacToe.ViewModels
 {
-	public class Observable : INotifyPropertyChanged
-	{
+	public class Observable : BindableBase, INotifyPropertyChanged
+    {
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
