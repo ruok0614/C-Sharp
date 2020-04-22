@@ -11,8 +11,9 @@ namespace TickTackToe.Models
     /// </summary>
     public class GameFacilitator
     {
-        public Action gameFinished;
-        public Action gameDrawed;
+        // publicはだめイベントぷとぱてぃ使う。あとaddで追加するようにする。
+        public event Action gameFinished;
+        public event Action gameDrawed;
         private const int ARRANGEMENT_NUMBER = 3;
         private readonly TicTacBoard board;
         private bool isFinish = false;

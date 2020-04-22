@@ -15,6 +15,8 @@ using TickTacToe.Views.Messengers;
 
 namespace TickTacToe.ViewModels
 {
+	// ***************************宿題**************************
+	// イベントハンドラーを増やす。ViewModelが賢すぎる。
 	public class GameViewModel: BindableBase
 	{
 		public GamePage View { get; private set; } = null;
