@@ -124,6 +124,10 @@
     <Compile Include="ViewModels\support\DelegateCommandT.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
     <Compile Include="ViewModels\support\Observable.cs" />
+    <Compile Include="Views\Controls\BoardGrid.cs" />
+    <Compile Include="Views\Controls\Borad.xaml.cs">
+      <DependentUpon>Borad.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controls\PieceButton.cs" />
     <Compile Include="Views\GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
@@ -159,6 +163,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\Controls\Borad.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\GamePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

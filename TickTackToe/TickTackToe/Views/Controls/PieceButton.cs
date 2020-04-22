@@ -64,6 +64,7 @@ namespace TickTacToe.Views.Controls
 			this.Style = (Style)this.Resources["DisplayEffectInvalidButtonStyle"];
 			this.roundImageBrush = CreateImageBrush("ms-appx:///Views/Images/maru.png");
 			this.crossImageBrush = CreateImageBrush("ms-appx:///Views/Images/batu.png");
+			Background = new SolidColorBrush(Colors.Transparent);
 			this.CommandParameter = (0, 0);
 		}
 
