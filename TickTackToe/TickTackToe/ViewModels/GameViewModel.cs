@@ -27,51 +27,74 @@ namespace TickTacToe.ViewModels
 			get => gameFacilitator.Active;
 		}
 
-		#region コマンド
+		#region プロパティ
 		/// <summary>
-		/// 会議室名を取得します。
+		/// ボード座標(0,0)にある駒の種類を取得します。
 		/// </summary>
 		public TicTacPiece.Type Borad00
 		{
 			get => this.gameFacilitator.GetPieceContent(0,0);
 		}
-
+		/// <summary>
+		/// ボード座標(1,0)にある駒の種類を取得します。
+		/// </summary>
 		public TicTacPiece.Type Borad10
 		{
 			get => this.gameFacilitator.GetPieceContent(1, 0);
 		}
+		/// <summary>
+		/// ボード座標(2,0)にある駒の種類を取得します。
+		/// </summary>
 		public TicTacPiece.Type Borad20
 		{
 			get => this.gameFacilitator.GetPieceContent(2, 0);
 		}
-
+		/// <summary>
+		/// ボード座標(0,1)にある駒の種類を取得します。
+		/// </summary>
 		public TicTacPiece.Type Borad01
 		{
 			get => this.gameFacilitator.GetPieceContent(0, 1);
 		}
-
+		/// <summary>
+		/// ボード座標(1,1)にある駒の種類を取得します。
+		/// </summary>
 		public TicTacPiece.Type Borad11
 		{
 			get => this.gameFacilitator.GetPieceContent(1, 1);
 		}
+		/// <summary>
+		/// ボード座標(2,1)にある駒の種類を取得します。
+		/// </summary>
 		public TicTacPiece.Type Borad21
 		{
 			get => this.gameFacilitator.GetPieceContent(2, 1);
 		}
+		/// <summary>
+		/// ボード座標(0,2)にある駒の種類を取得します。
+		/// </summary>
 		public TicTacPiece.Type Borad02
 		{
 			get => this.gameFacilitator.GetPieceContent(0, 2);
 		}
-
+		/// <summary>
+		/// ボード座標(1,2)にある駒の種類を取得します。
+		/// </summary>
 		public TicTacPiece.Type Borad12
 		{
 			get => this.gameFacilitator.GetPieceContent(1, 2);
 		}
+		/// <summary>
+		/// ボード座標(2,2)にある駒の種類を取得します。
+		/// </summary>
 		public TicTacPiece.Type Borad22
 		{
 			get => this.gameFacilitator.GetPieceContent(2, 2);
 		}
 
+		/// <summary>
+		/// ダイアログを表示するサービスを取得または設定します。
+		/// </summary>
 		public DialogService DialogService
 		{
 			get { return this.dialogService; }
@@ -80,6 +103,9 @@ namespace TickTacToe.ViewModels
 
 		#endregion
 
+		/// <summary>
+		/// コンストラクタ
+		/// </summary>
 		public GameViewModel()
 		{
 			this.gameFacilitator = new GameFacilitator(3, 3);
@@ -87,11 +113,15 @@ namespace TickTacToe.ViewModels
 			this.gameFacilitator.gameDrawed += GameDrawed;
 		}
 
-	
+		/// <summary>
+		/// 初期化処理を行います。
+		/// </summary>
+		/// <param name="gemePage"></param>
 		public void Initialize(GamePage gemePage)
 		{
 			this.View = gemePage;
 		}
+
 
 		public ICommand SetCommand {
 			get {
@@ -156,7 +186,6 @@ namespace TickTacToe.ViewModels
 		{
 			this.dialogService.ShowMessage("ゲーム終了", $"引き分けです．");
 		}
-
 
 	}
 }

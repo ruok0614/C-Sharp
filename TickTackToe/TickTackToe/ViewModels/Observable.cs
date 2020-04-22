@@ -23,10 +23,8 @@ namespace TickTacToe.ViewModels
             }
 
             storage = value;
-            OnPropertyChanged(propertyName);
+            this.RaisePropertyChanged(propertyName);
         }
-
-        protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
 

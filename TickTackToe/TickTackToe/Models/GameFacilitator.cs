@@ -7,6 +7,9 @@ using TickTacToe.Models;
 
 namespace TickTackToe.Models
 {
+    /// <summary>
+    /// /ゲームの進行を管理するクラスです。
+    /// </summary>
     public class GameFacilitator
     {
         public Action gameFinished;
@@ -16,31 +19,55 @@ namespace TickTackToe.Models
         private bool isFinish = false;
         private TicTacPiece.Type active = TicTacPiece.Type.None;
 
+        /// <summary>
+        /// コンストラクタ。
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
         public GameFacilitator(int width, int height)
         {
             this.board = new TicTacBoard(width, height); 
         }
 
+       /// <summary>
+       /// 現在プレイ中の駒タイプを取得します。
+       /// </summary>
         public TicTacPiece.Type Active
         {
-            get => active;
+            get => this.active;
         }
 
+        /// <summary>
+        /// 座標(x,y)にある駒を取得します。
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public TicTacPiece.Type GetPieceContent(int x, int y)
         {
             return this.board.GetPiece(x,y).Content;
         }
 
+        /// <summary>
+        /// ゲームをスタートします。
+        /// ○×ゲームでは必ず先行が○になります。
+        /// </summary>
         public void Start()
         {
-            board.Initialize();
-            isFinish = false;
-            active = TicTacPiece.Type.Round;
+            this.board.Initialize();
+            this.isFinish = false;
+            this.active = TicTacPiece.Type.Round;
         }
 
+        /// <summary>
+        /// 座標(x,y)に指定した駒をセットします。
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="type"></param>
         public void SetPiece(int x, int y, TicTacPiece.Type type)
         {
-            if(active == TicTacPiece.Type.None || isFinish)
+            if(this.active == TicTacPiece.Type.None || this.isFinish)
             {
                 return;
             }
@@ -59,37 +86,49 @@ namespace TickTackToe.Models
                     break;
             }
           
-
-            if (!board.SetPeace(x, y, piece))
+            if (!this.board.SetPeace(x, y, piece))
             {
-                // 駒が置けない
+                //TODO 駒が置けないアクションがあれば記述
+                return;
             }
 
-            if (IsFinish(x, y, piece))
+            if (this.IsFinish(x, y, piece))
             {
-                gameFinished.Invoke();
+               this.gameFinished.Invoke();
+                return;
             }
-            if (IsDraw())
+            if (this.IsDraw())
             {
-                gameDrawed.Invoke();
+                this.gameDrawed.Invoke();
+                return;
             }
 
-            if (active == TicTacPiece.Type.Cross)
+            if (this.active == TicTacPiece.Type.Cross)
             {
-                active = TicTacPiece.Type.Round;
+                this.active = TicTacPiece.Type.Round;
             }
-            else if (active == TicTacPiece.Type.Round)
+            else if (this.active == TicTacPiece.Type.Round)
             {
-                active = TicTacPiece.Type.Cross;
+                this.active = TicTacPiece.Type.Cross;
             }
 
         }
 
+        /// <summary>
+        /// ボードの座標(x,y)に駒が設置できるかどうか。
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public bool IsSetPiece(int x, int y)
         {
             return this.board.GetPiece(x, y).Content == TicTacPiece.Type.None;
         }
 
+        /// <summary>
+        /// 引き分けかどうか
+        /// </summary>
+        /// <returns></returns>
         public bool IsDraw()
         {
             var count = 0;
@@ -97,20 +136,27 @@ namespace TickTackToe.Models
             {
                 for (int x = 0; x < this.board.Width; x++)
                 {
-                    if(board.GetPiece(y,x).Content != TicTacPiece.Type.None)
+                    if(this.board.GetPiece(y,x).Content != TicTacPiece.Type.None)
                     {
                         count++;
                     }
                 }
             }
-            if(count == board.Height * board.Width)
+            if(count == this.board.Height * this.board.Width)
             {
-                isFinish = true;
+                this.isFinish = true;
                 return true;
             }
             return false;
         }
 
+        /// <summary>
+        /// ゲームが終了した（勝敗が決定した）かどうか。
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="piece"></param>
+        /// <returns></returns>
         public bool IsFinish(int x, int y, TicTacPiece piece)
         {
 
@@ -120,22 +166,22 @@ namespace TickTackToe.Models
                 var yy = y;
                 xx += TicTacBoard.ALL_DIRECTION[d, TicTacBoard.X];
                 yy += TicTacBoard.ALL_DIRECTION[d, TicTacBoard.Y];
-                if (CheckIndexOutOrNone(xx, yy))
+                if (this.CheckIndexOutOrNone(xx, yy))
                 {
                     continue;
                 }
                 var count = 1;
-                while (piece.Content == board.GetPiece(xx,yy).Content)
+                while (piece.Content == this.board.GetPiece(xx,yy).Content)
                 {
                     count++;
                     xx += TicTacBoard.ALL_DIRECTION[d, TicTacBoard.X];
                     yy += TicTacBoard.ALL_DIRECTION[d, TicTacBoard.Y];
                     if(count == ARRANGEMENT_NUMBER)
                     {
-                        isFinish = true;
+                        this.isFinish = true;
                         return true;
                     }
-                    if (CheckIndexOutOrNone(xx, yy))
+                    if (this.CheckIndexOutOrNone(xx, yy))
                     {
                         break;
                     }
@@ -144,14 +190,20 @@ namespace TickTackToe.Models
             return false;
         }
 
+        /// <summary>
+        /// 駒がボードの範囲外に出ていないかどうか
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         private bool CheckIndexOutOrNone(int x, int y)
         {
-            if ( (x < 0 || x >= board.Width) ||  ( y < 0 || y>= board.Height))
+            if ( (x < 0 || x >= this.board.Width) ||  ( y < 0 || y>= this.board.Height))
             {
                 return true;
             }
 
-            if(board.GetPiece(x,y).Content == TicTacPiece.Type.None)
+            if(this.board.GetPiece(x,y).Content == TicTacPiece.Type.None)
             {
                 return true;
             }

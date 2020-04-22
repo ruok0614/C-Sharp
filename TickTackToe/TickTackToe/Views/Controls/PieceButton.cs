@@ -12,6 +12,9 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace TickTacToe.Views.Controls
 {
+	/// <summary>
+	/// 〇×ゲームの駒コントロール
+	/// </summary>
 	public class PieceButton:Button
 	{
 		private ImageBrush roundImageBrush;
@@ -34,19 +37,27 @@ namespace TickTacToe.Views.Controls
 		public static readonly DependencyProperty XProperty =
 			DependencyProperty.Register("X", typeof(int), typeof(PieceButton), new PropertyMetadata(0, XYChanged));
 
-
+		/// <summary>
+		/// 座標x
+		/// </summary>
 		public int X
 		{		
 			get { return (int)GetValue(XProperty); }
 			set { SetValue(XProperty, value); }
 		}
 
+		/// <summary>
+		/// 座標y
+		/// </summary>
 		public int Y
 		{
 			get { return (int)GetValue(YProperty); }
 			set { SetValue(YProperty, value); }
 		}
 
+		/// <summary>
+		/// コンストラクタ
+		/// </summary>
 		public PieceButton()
 		{
 			this.roundImageBrush = CreateImageBrush("ms-appx:///Views/Images/maru.png");
