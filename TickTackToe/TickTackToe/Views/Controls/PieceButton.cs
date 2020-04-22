@@ -60,6 +60,8 @@ namespace TickTacToe.Views.Controls
 		/// </summary>
 		public PieceButton()
 		{
+			this.Resources.Source = new Uri("ms-appx:///Views/Styles/StyleDictionary.xaml");
+			this.Style = (Style)this.Resources["DisplayEffectInvalidButtonStyle"];
 			this.roundImageBrush = CreateImageBrush("ms-appx:///Views/Images/maru.png");
 			this.crossImageBrush = CreateImageBrush("ms-appx:///Views/Images/batu.png");
 			this.CommandParameter = (0, 0);
