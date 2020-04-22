@@ -19,7 +19,7 @@ namespace TickTacToe.ViewModels
 	{
 		public GamePage View { get; private set; } = null;
 		private GameFacilitator gameFacilitator;
-		private DelegateCommandT<(int,int)> setCommand;
+		private ICommand setCommand;
 		private DelegateCommand startCommand;
 		private DialogService dialogService;
 		public TicTacPiece.Type Active
@@ -108,6 +108,8 @@ namespace TickTacToe.ViewModels
 		/// </summary>
 		public GameViewModel()
 		{
+			// TODO MainViewからゲームモードを選んでそのモードによって異なるsetCommandをで差し込むようにする。
+			this.setCommand = this.SetPiecePvP();
 			this.gameFacilitator = new GameFacilitator(3, 3);
 			this.gameFacilitator.gameFinished += GameFinished;
 			this.gameFacilitator.gameDrawed += GameDrawed;
@@ -125,19 +127,7 @@ namespace TickTacToe.ViewModels
 
 		public ICommand SetCommand {
 			get {
-				return this.setCommand ?? (this.setCommand = new DelegateCommandT<(int, int)>(
-				(xy) =>
-				{
-
-					this.gameFacilitator.SetPiece(xy.Item1, xy.Item2, Active);
-					RaisePropertyChanged(nameof(this.Active));
-					BoardPropertyChanged();
-				},
-				(xy) =>
-				{
-					return gameFacilitator.IsSetPiece(xy.Item1, xy.Item2);
-				}
-				));
+				return this.setCommand;
 			}
 		}
 
@@ -185,6 +175,23 @@ namespace TickTacToe.ViewModels
 		private void GameDrawed()
 		{
 			this.dialogService.ShowMessage("ゲーム終了", $"引き分けです．");
+		}
+
+		private ICommand SetPiecePvP()
+		{
+			return new DelegateCommandT<(int, int)>(
+				(xy) =>
+				{
+
+					this.gameFacilitator.SetPiece(xy.Item1, xy.Item2, Active);
+					RaisePropertyChanged(nameof(this.Active));
+					BoardPropertyChanged();
+				},
+				(xy) =>
+				{
+					return gameFacilitator.IsSetPiece(xy.Item1, xy.Item2);
+				}
+				);
 		}
 
 	}
