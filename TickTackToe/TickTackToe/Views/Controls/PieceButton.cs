@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TickTackToe.Models;
+using TickTacToe.ViewModels.support;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -21,21 +22,21 @@ namespace TickTacToe.Views.Controls
 		private ImageBrush crossImageBrush;
 		private TicTacPiece.Type type;
 
-		public TicTacPiece.Type Type
+		public NotifyBoard Board
 		{
-			get { return (TicTacPiece.Type)this.GetValue(TypeProperty); }
-			set { this.SetValue(TypeProperty, value); }
+			get { return (NotifyBoard)GetValue(BoardProperty); }
+			set { SetValue(BoardProperty, value); }
 		}
 
-		// Using a DependencyProperty as the backing store for Type.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty TypeProperty =
-			DependencyProperty.Register("Type", typeof(TicTacPiece.Type), typeof(PieceButton), new PropertyMetadata(TicTacPiece.Type.None, TypeChanged));
 		// Using a DependencyProperty as the backing store for Y.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty YProperty =
 			DependencyProperty.Register("Y", typeof(int), typeof(PieceButton), new PropertyMetadata(0, XYChanged));
 		// Using a DependencyProperty as the backing store for X.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty XProperty =
 			DependencyProperty.Register("X", typeof(int), typeof(PieceButton), new PropertyMetadata(0, XYChanged));
+		// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+		public static readonly DependencyProperty BoardProperty =
+			DependencyProperty.Register(nameof(Board), typeof(NotifyBoard), typeof(PieceButton), new PropertyMetadata(null,BoardChanged));
 
 		/// <summary>
 		/// 座標x
@@ -64,7 +65,7 @@ namespace TickTacToe.Views.Controls
 			this.Style = (Style)this.Resources["DisplayEffectInvalidButtonStyle"];
 			this.roundImageBrush = CreateImageBrush("ms-appx:///Views/Images/maru.png");
 			this.crossImageBrush = CreateImageBrush("ms-appx:///Views/Images/batu.png");
-			Background = new SolidColorBrush(Colors.Transparent);
+			this.Background = new SolidColorBrush(Colors.Transparent);
 			this.CommandParameter = (0, 0);
 		}
 
@@ -77,14 +78,17 @@ namespace TickTacToe.Views.Controls
 			}
 			piceButton.CommandParameter = (piceButton.X, piceButton.Y);
 		}
-		private static void TypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		
+		private static void BoardChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			if(!(d is PieceButton piceButton))
 			{
 				return;
 			}
 
-			switch(piceButton.Type)
+			var piace = piceButton.Board.Board[piceButton.Y,piceButton.X].Content;
+
+			switch(piace)
 			{
 				case (TicTacPiece.Type.None):
 					piceButton.Background = new SolidColorBrush(Colors.Transparent);

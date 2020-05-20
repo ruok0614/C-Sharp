@@ -25,11 +25,17 @@ namespace TickTackToe.Views
     /// </summary>
     public sealed partial class GamePage : Page
     {
-        public GameViewModel ViewModel { get; private set; } = new GameViewModel();
+
+        public int CellHeight { get; } = 3;
+        public int CellWidth{ get; } = 3;
+
+
+        public GameViewModel ViewModel { get; }
 
         public GamePage()
         {
             this.InitializeComponent();
+            this.ViewModel = new GameViewModel(this.CellWidth, this.CellHeight);
             this.ViewModel.Initialize(this);
             this.ViewModel.DialogService = new TickTacToe.Views.Messengers.DialogService();
             this.DataContext = this.ViewModel;

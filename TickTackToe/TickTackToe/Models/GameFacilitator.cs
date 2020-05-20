@@ -29,9 +29,19 @@ namespace TickTackToe.Models
             this.board = new TicTacBoard(width, height); 
         }
 
-       /// <summary>
-       /// 現在プレイ中の駒タイプを取得します。
-       /// </summary>
+        public IPiece<TicTacPiece.Type>[,] Board
+        {
+            get => this.board.board;
+        }
+
+        public bool IsFinish()
+        {
+            return isFinish;
+        }
+
+        /// <summary>
+        /// 現在プレイ中の駒タイプを取得します。
+        /// </summary>
         public TicTacPiece.Type Active
         {
             get => this.active;
@@ -157,7 +167,7 @@ namespace TickTackToe.Models
         /// <param name="y"></param>
         /// <param name="piece"></param>
         /// <returns></returns>
-        public bool IsFinish(int x, int y, TicTacPiece piece)
+        private bool IsFinish(int x, int y, TicTacPiece piece)
         {
 
             for (var d = 0; d < TicTacBoard.DIRECTION_NUM; d++)

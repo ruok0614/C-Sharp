@@ -123,6 +123,7 @@
     <Compile Include="Models\Board\TicTacToeBoard.cs" />
     <Compile Include="ViewModels\support\DelegateCommandT.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
+    <Compile Include="ViewModels\support\NotifyBoard.cs" />
     <Compile Include="ViewModels\support\Observable.cs" />
     <Compile Include="Views\Controls\BoardGrid.cs" />
     <Compile Include="Views\Controls\Borad.xaml.cs">

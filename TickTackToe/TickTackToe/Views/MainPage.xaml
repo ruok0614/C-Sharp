@@ -7,5 +7,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="#7fffd4">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="1*"/>
+			<RowDefinition Height="1*"/>
+		</Grid.RowDefinitions>
+		<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="三目並べ" TextWrapping="NoWrap" Width="1362" TextAlignment="Center" FontSize="100"/>
+	
+	</Grid>
 
 </Page>

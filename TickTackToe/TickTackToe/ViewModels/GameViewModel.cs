@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using TickTackToe.Models;
 using TickTackToe.Views;
+using TickTacToe.ViewModels.support;
 using TickTacToe.Views.Messengers;
 
 namespace TickTacToe.ViewModels
@@ -24,75 +25,29 @@ namespace TickTacToe.ViewModels
 		private ICommand setCommand;
 		private DelegateCommand startCommand;
 		private DialogService dialogService;
+	
+
+		#region プロパティ
+
+		public int Widrh { get; }
+		public int Height { get; }
+
+		/// <summary>
+		/// 現在アクティブな駒を取得します。
+		/// </summary>
 		public TicTacPiece.Type Active
 		{
 			get => gameFacilitator.Active;
 		}
 
-		#region プロパティ
 		/// <summary>
-		/// ボード座標(0,0)にある駒の種類を取得します。
+		/// ボードを取得します。
 		/// </summary>
-		public TicTacPiece.Type Borad00
+		public NotifyBoard Board
 		{
-			get => this.gameFacilitator.GetPieceContent(0,0);
+			get => NotifyBoard.Create(gameFacilitator.Board);
 		}
-		/// <summary>
-		/// ボード座標(1,0)にある駒の種類を取得します。
-		/// </summary>
-		public TicTacPiece.Type Borad10
-		{
-			get => this.gameFacilitator.GetPieceContent(1, 0);
-		}
-		/// <summary>
-		/// ボード座標(2,0)にある駒の種類を取得します。
-		/// </summary>
-		public TicTacPiece.Type Borad20
-		{
-			get => this.gameFacilitator.GetPieceContent(2, 0);
-		}
-		/// <summary>
-		/// ボード座標(0,1)にある駒の種類を取得します。
-		/// </summary>
-		public TicTacPiece.Type Borad01
-		{
-			get => this.gameFacilitator.GetPieceContent(0, 1);
-		}
-		/// <summary>
-		/// ボード座標(1,1)にある駒の種類を取得します。
-		/// </summary>
-		public TicTacPiece.Type Borad11
-		{
-			get => this.gameFacilitator.GetPieceContent(1, 1);
-		}
-		/// <summary>
-		/// ボード座標(2,1)にある駒の種類を取得します。
-		/// </summary>
-		public TicTacPiece.Type Borad21
-		{
-			get => this.gameFacilitator.GetPieceContent(2, 1);
-		}
-		/// <summary>
-		/// ボード座標(0,2)にある駒の種類を取得します。
-		/// </summary>
-		public TicTacPiece.Type Borad02
-		{
-			get => this.gameFacilitator.GetPieceContent(0, 2);
-		}
-		/// <summary>
-		/// ボード座標(1,2)にある駒の種類を取得します。
-		/// </summary>
-		public TicTacPiece.Type Borad12
-		{
-			get => this.gameFacilitator.GetPieceContent(1, 2);
-		}
-		/// <summary>
-		/// ボード座標(2,2)にある駒の種類を取得します。
-		/// </summary>
-		public TicTacPiece.Type Borad22
-		{
-			get => this.gameFacilitator.GetPieceContent(2, 2);
-		}
+
 
 		/// <summary>
 		/// ダイアログを表示するサービスを取得または設定します。
@@ -108,11 +63,13 @@ namespace TickTacToe.ViewModels
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
-		public GameViewModel()
+		public GameViewModel(int width, int height)
 		{
 			// TODO MainViewからゲームモードを選んでそのモードによって異なるsetCommandをで差し込むようにする。
 			this.setCommand = this.SetPiecePvP();
-			this.gameFacilitator = new GameFacilitator(3, 3);
+			this.Widrh = width;
+			this.Height = height;
+			this.gameFacilitator = new GameFacilitator(width, height);
 			this.gameFacilitator.gameFinished += GameFinished;
 			this.gameFacilitator.gameDrawed += GameDrawed;
 		}
@@ -149,15 +106,7 @@ namespace TickTacToe.ViewModels
 
 		private void BoardPropertyChanged()
 		{
-			RaisePropertyChanged(nameof(this.Borad00));
-			RaisePropertyChanged(nameof(this.Borad10));
-			RaisePropertyChanged(nameof(this.Borad20));
-			RaisePropertyChanged(nameof(this.Borad01));
-			RaisePropertyChanged(nameof(this.Borad11));
-			RaisePropertyChanged(nameof(this.Borad21));
-			RaisePropertyChanged(nameof(this.Borad02));
-			RaisePropertyChanged(nameof(this.Borad12));
-			RaisePropertyChanged(nameof(this.Borad22));
+			RaisePropertyChanged(nameof(this.Board));
 		}
 
 		
@@ -186,6 +135,44 @@ namespace TickTacToe.ViewModels
 				{
 
 					this.gameFacilitator.SetPiece(xy.Item1, xy.Item2, Active);
+					RaisePropertyChanged(nameof(this.Active));
+					BoardPropertyChanged();
+				},
+				(xy) =>
+				{
+					return gameFacilitator.IsSetPiece(xy.Item1, xy.Item2);
+				}
+				);
+		}
+
+		private ICommand SetPiecePvC()
+		{
+			return new DelegateCommandT<(int, int)>(
+				(xy) =>
+				{
+
+					this.gameFacilitator.SetPiece(xy.Item1, xy.Item2, Active);
+					RaisePropertyChanged(nameof(this.Active));
+					BoardPropertyChanged();
+
+					if(this.gameFacilitator.IsFinish())
+					{
+						return;
+					}
+
+					var settableList = new List<(int x,int y )>();
+					for(int x = 0; x < this.Widrh; x++)
+					{
+						for(int y = 0; y < this.Height; y++)
+						{
+							if(this.gameFacilitator.IsSetPiece(x, y))
+							{
+								settableList.Add((x, y));
+							}
+						}
+					}
+					var randomNumber = new Random().Next(0,settableList.Count);
+					this.gameFacilitator.SetPiece(settableList[randomNumber].x, settableList[randomNumber].y, Active);
 					RaisePropertyChanged(nameof(this.Active));
 					BoardPropertyChanged();
 				},

@@ -10,63 +10,22 @@
     Background="#7fffd4">
 
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="6*" x:Name="CenterColumnDefinition"/>
-            <ColumnDefinition Width="1*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="6*" x:Name="CenterRowDefinition"/>
-            <RowDefinition Height="1*"/>
-        </Grid.RowDefinitions>
-        <!--<Grid Grid.Column="1" Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Grid.Column="0">
-                <controls:PieceButton  Name="00" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Type="{Binding Borad00}" Command="{Binding SetCommand}" X="0" Y="0"/>
-            </Grid>
-            <Grid Grid.Row="0" Grid.Column="1">
-                <controls:PieceButton Name="10" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Type="{Binding Borad10}" Command="{Binding SetCommand}" X="1" Y="0"/>
-            </Grid>
-            <Grid Grid.Row="0" Grid.Column="2">
-                <controls:PieceButton Name="20" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Type="{Binding Borad20}" Command="{Binding SetCommand}" X="2" Y="0"/>
-            </Grid>
-            <Grid Grid.Row="1" Grid.Column="0">
-                <controls:PieceButton Name="01" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Type="{Binding Borad01}" Command="{Binding SetCommand}" X="0" Y="1"/>
-            </Grid>
-            <Grid Grid.Row="1" Grid.Column="1">
-                <controls:PieceButton Name="11" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Type="{Binding Borad11}" Command="{Binding SetCommand}" X="1" Y="1"/>
-            </Grid>
-            <Grid Grid.Row="1" Grid.Column="2">
-                <controls:PieceButton Name="21" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Type="{Binding Borad21}" Command="{Binding SetCommand}" X="2" Y="1"/>
-            </Grid>
-            <Grid Grid.Row="2" Grid.Column="0" >
-                <controls:PieceButton Name="02" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Type="{Binding Borad02}" Command="{Binding SetCommand}" X="0" Y="2"/>
-            </Grid>
-            <Grid Grid.Row="2" Grid.Column="1" >
-                <controls:PieceButton Name="12" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Type="{Binding Borad12}" Command="{Binding SetCommand}" X="1" Y="2"/>
-            </Grid>
-            <Grid Grid.Row="2" Grid.Column="2" >
-                <controls:PieceButton Name="22" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Type="{Binding Borad22}" Command="{Binding SetCommand}" X="2" Y="2"/>
-            </Grid>
-            <Line  X2="1" Stretch="Fill" Stroke="Black" StrokeThickness="10" VerticalAlignment="Bottom" Grid.ColumnSpan="3" Grid.RowSpan="1" />
-            <Line  X2="1" Stretch="Fill" Stroke="Black" StrokeThickness="10" VerticalAlignment="Bottom" Grid.ColumnSpan="3" Grid.RowSpan="2" />
-            <Line  Y2="1" Stretch="Fill" Stroke="Black" StrokeThickness="10" HorizontalAlignment="Right" Grid.ColumnSpan="1" Grid.RowSpan="3" />
-            <Line  Y2="1" Stretch="Fill" Stroke="Black" StrokeThickness="10" HorizontalAlignment="Right" Grid.ColumnSpan="2" Grid.RowSpan="3" />
-        </Grid>-->
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="1*" />
+			<ColumnDefinition Width="6*" x:Name="CenterColumnDefinition"/>
+			<ColumnDefinition Width="1*"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="1*"/>
+			<RowDefinition Height="6*" x:Name="CenterRowDefinition"/>
+			<RowDefinition Height="1*"/>
+		</Grid.RowDefinitions>
+
 		<Grid Grid.Column="1" Grid.Row="1">
-			<controls:BoardGrid Height="5" Width="5"/>
+			<controls:BoardGrid SetCommand="{Binding SetCommand}" Board="{Binding Board}" CellWidth="{x:Bind CellWidth}" CellHeight="{x:Bind CellHeight}"/>
 		</Grid>
 		<Button x:Name="button" Content="Start" Grid.Column="1" Command="{Binding StartCommand}" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="52" Width="180"/>
-    </Grid>
+		<TextBlock HorizontalAlignment="Left" Text="{Binding Active}" TextWrapping="Wrap" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+	</Grid>
 </Page>

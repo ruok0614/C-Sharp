@@ -25,14 +25,11 @@ namespace TickTacToe.Views.Controls
 	public sealed partial class Borad : UserControl
 	{
 
-
 		public int Width
 		{
 			get { return (int)GetValue(WidthProperty); }
 			set { SetValue(WidthProperty, value); }
 		}
-
-
 
 		public int Height
 		{
