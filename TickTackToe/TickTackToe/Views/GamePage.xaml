@@ -23,9 +23,9 @@
 		</Grid.RowDefinitions>
 
 		<Grid Grid.Column="1" Grid.Row="1">
-			<controls:BoardGrid SetCommand="{Binding SetCommand}" Board="{Binding Board}" CellWidth="{x:Bind CellWidth}" CellHeight="{x:Bind CellHeight}"/>
+			<controls:BoardGrid SetCommand="{Binding SetPiaceCommand}" Board="{Binding Board}" CellWidth="{x:Bind CellWidth}" CellHeight="{x:Bind CellHeight}"/>
 		</Grid>
-		<Button x:Name="button" Content="Start" Grid.Column="1" Command="{Binding StartCommand}" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="52" Width="180"/>
+		<Button x:Name="button" Content="リセット" Grid.Column="1" Command="{Binding StartCommand}" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="52" Width="180"/>
 		<TextBlock HorizontalAlignment="Left" Text="{Binding Active}" TextWrapping="Wrap" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
 	</Grid>
 </Page>

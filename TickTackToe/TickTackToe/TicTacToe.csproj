@@ -121,6 +121,7 @@
     </Compile>
     <Compile Include="Models\GameFacilitator.cs" />
     <Compile Include="Models\Board\TicTacToeBoard.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\support\DelegateCommandT.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
     <Compile Include="ViewModels\support\NotifyBoard.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="Views\GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GameType.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -157,6 +159,9 @@
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Views\Images\batu.png" />
+    <Content Include="Views\Images\character_game_reversi.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Views\Images\maru.png" />
   </ItemGroup>
   <ItemGroup>

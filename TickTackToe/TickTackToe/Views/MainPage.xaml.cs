@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using TickTacToe.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -22,9 +23,13 @@ namespace TickTackToe.Views
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public MainViewModel ViewModel { get; }
         public MainPage()
         {
             this.InitializeComponent();
+            this.ViewModel = new MainViewModel();
+            this.ViewModel.Initialize(this);
+            this.DataContext = this.ViewModel;
         }
     }
 }

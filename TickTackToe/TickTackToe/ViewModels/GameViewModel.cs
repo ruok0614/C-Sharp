@@ -12,6 +12,7 @@ using System.Windows.Input;
 using TickTackToe.Models;
 using TickTackToe.Views;
 using TickTacToe.ViewModels.support;
+using TickTacToe.Views;
 using TickTacToe.Views.Messengers;
 
 namespace TickTacToe.ViewModels
@@ -22,7 +23,7 @@ namespace TickTacToe.ViewModels
 	{
 		public GamePage View { get; private set; } = null;
 		private GameFacilitator gameFacilitator;
-		private ICommand setCommand;
+		private ICommand setPiaceCommand;
 		private DelegateCommand startCommand;
 		private DialogService dialogService;
 	
@@ -58,6 +59,22 @@ namespace TickTacToe.ViewModels
 			set { this.SetProperty(ref this.dialogService, value); }
 		}
 
+		/// <summary>
+		/// ピースを置くコマンドを取得します。
+		/// </summary>
+		public ICommand SetPiaceCommand
+		{
+			get
+			{
+				return this.setPiaceCommand;
+			}
+			private set
+			{
+				this.setPiaceCommand = value;
+				this.RaisePropertyChanged(nameof(SetPiaceCommand));
+			}
+		}
+
 		#endregion
 
 		/// <summary>
@@ -66,12 +83,13 @@ namespace TickTacToe.ViewModels
 		public GameViewModel(int width, int height)
 		{
 			// TODO MainViewからゲームモードを選んでそのモードによって異なるsetCommandをで差し込むようにする。
-			this.setCommand = this.SetPiecePvP();
+
 			this.Widrh = width;
 			this.Height = height;
 			this.gameFacilitator = new GameFacilitator(width, height);
 			this.gameFacilitator.gameFinished += GameFinished;
 			this.gameFacilitator.gameDrawed += GameDrawed;
+			this.gameFacilitator.boardChanged += BoardPropertyChanged;
 		}
 
 		/// <summary>
@@ -83,11 +101,21 @@ namespace TickTacToe.ViewModels
 			this.View = gemePage;
 		}
 
-
-		public ICommand SetCommand {
-			get {
-				return this.setCommand;
+		public void StartGame(GameType gameType)
+		{
+			switch(gameType)
+			{
+				case GameType.PvP:
+					this.SetPiaceCommand = this.SetPiecePvP();
+					break;
+				case GameType.PvC:
+					this.SetPiaceCommand = this.SetPiecePvC();
+					break;
+				case GameType.Com:
+					// TODO 課題3で実装
+					break;
 			}
+			this.gameFacilitator.Start();
 		}
 
 		public ICommand StartCommand
@@ -98,7 +126,6 @@ namespace TickTacToe.ViewModels
 				() =>
 				{
 					gameFacilitator.Start();
-					BoardPropertyChanged();
 				}
 				));
 			}
@@ -106,7 +133,8 @@ namespace TickTacToe.ViewModels
 
 		private void BoardPropertyChanged()
 		{
-			RaisePropertyChanged(nameof(this.Board));
+			this.RaisePropertyChanged(nameof(this.Board));
+			this.RaisePropertyChanged(nameof(this.Active));
 		}
 
 		
@@ -133,14 +161,11 @@ namespace TickTacToe.ViewModels
 			return new DelegateCommandT<(int, int)>(
 				(xy) =>
 				{
-
 					this.gameFacilitator.SetPiece(xy.Item1, xy.Item2, Active);
-					RaisePropertyChanged(nameof(this.Active));
-					BoardPropertyChanged();
 				},
 				(xy) =>
 				{
-					return gameFacilitator.IsSetPiece(xy.Item1, xy.Item2);
+					return gameFacilitator.CanSetPiece(xy.Item1, xy.Item2);
 				}
 				);
 		}
@@ -152,8 +177,7 @@ namespace TickTacToe.ViewModels
 				{
 
 					this.gameFacilitator.SetPiece(xy.Item1, xy.Item2, Active);
-					RaisePropertyChanged(nameof(this.Active));
-					BoardPropertyChanged();
+
 
 					if(this.gameFacilitator.IsFinish())
 					{
@@ -165,7 +189,7 @@ namespace TickTacToe.ViewModels
 					{
 						for(int y = 0; y < this.Height; y++)
 						{
-							if(this.gameFacilitator.IsSetPiece(x, y))
+							if(this.gameFacilitator.CanSetPiece(x, y))
 							{
 								settableList.Add((x, y));
 							}
@@ -173,12 +197,10 @@ namespace TickTacToe.ViewModels
 					}
 					var randomNumber = new Random().Next(0,settableList.Count);
 					this.gameFacilitator.SetPiece(settableList[randomNumber].x, settableList[randomNumber].y, Active);
-					RaisePropertyChanged(nameof(this.Active));
-					BoardPropertyChanged();
 				},
 				(xy) =>
 				{
-					return gameFacilitator.IsSetPiece(xy.Item1, xy.Item2);
+					return gameFacilitator.CanSetPiece(xy.Item1, xy.Item2);
 				}
 				);
 		}

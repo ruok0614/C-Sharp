@@ -4,9 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using TickTacToe.ViewModels;
+using TickTacToe.Views;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -26,8 +28,8 @@ namespace TickTackToe.Views
     public sealed partial class GamePage : Page
     {
 
-        public int CellHeight { get; } = 3;
-        public int CellWidth{ get; } = 3;
+        public int CellHeight { get; } = 5;
+        public int CellWidth{ get; } = 5;
 
 
         public GameViewModel ViewModel { get; }
@@ -52,6 +54,22 @@ namespace TickTackToe.Views
             var boadSize = (int)(this.ActualHeight >= this.ActualWidth ? this.ActualWidth : this.ActualHeight) - 50 ;
             this.CenterColumnDefinition.Width = new GridLength(boadSize);
             this.CenterRowDefinition.Height = new GridLength(boadSize);
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            this.ViewModel.StartGame((GameType)e.Parameter);
+
+            if(Frame.CanGoBack)
+            {
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+            }
+            else
+            {
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            }
+
+            base.OnNavigatedTo(e);
         }
     }
 }

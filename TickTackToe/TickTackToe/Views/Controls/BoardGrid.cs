@@ -141,7 +141,7 @@ namespace TickTacToe.Views.Controls
 				{
 					Y2 = 1,
 					Stretch = Stretch.Fill,
-					Stroke = new SolidColorBrush(Colors.Black),
+					Stroke = new SolidColorBrush(Colors.Gray),
 					StrokeThickness = 10,
 					HorizontalAlignment = HorizontalAlignment.Right,
 				};
@@ -155,7 +155,7 @@ namespace TickTacToe.Views.Controls
 				{
 					X2 = 1,
 					Stretch = Stretch.Fill,
-					Stroke = new SolidColorBrush(Colors.Black),
+					Stroke = new SolidColorBrush(Colors.Gray),
 					StrokeThickness = 10,
 					VerticalAlignment = VerticalAlignment.Bottom,
 				};
@@ -168,69 +168,6 @@ namespace TickTacToe.Views.Controls
 
 		public BoardGrid()
 		{
-
-			//this.CellWidth = this.CellHeight = 5;
-			//for(var w = 0; w < CellWidth; w++)
-			//{
-			//	var colDef = new ColumnDefinition
-			//	{
-			//		Width = new GridLength(1, GridUnitType.Star)
-			//	};
-			//	this.ColumnDefinitions.Add(colDef);
-			//}
-			//for(var h = 0; h < CellHeight; h++)
-			//{
-			//	var rowDef = new RowDefinition
-			//	{
-			//		Height = new GridLength(1, GridUnitType.Star)
-			//	};
-			//	this.RowDefinitions.Add(rowDef);
-			//}
-			//for(var w = 0; w < CellWidth; w++)
-			//{
-			//	for(var h = 0; h < CellHeight; h++)
-			//	{
-			//		var button = new PieceButton()
-			//		{
-			//			Margin = new Thickness(0),
-			//			HorizontalAlignment = HorizontalAlignment.Stretch,
-			//			VerticalAlignment = VerticalAlignment.Stretch,
-			//			X = w,
-			//			Y = h
-			//		};
-			//		Grid.SetColumn(button, w);
-			//		Grid.SetRow(button, h);
-			//		this.Children.Add(button);
-			//	}
-			//}
-			//for(var w = 1; w < CellWidth; w++)
-			//{
-			//	var line = new Line()
-			//	{
-			//		Y2 = 1,
-			//		Stretch = Stretch.Fill,
-			//		Stroke = new SolidColorBrush(Colors.Black),
-			//		StrokeThickness = 10,
-			//		HorizontalAlignment = HorizontalAlignment.Right,
-			//	};
-			//	Grid.SetColumnSpan(line, w);
-			//	Grid.SetRowSpan(line, CellWidth);
-			//	this.Children.Add(line);
-			//}
-			//for(var h = 1; h < CellHeight; h++)
-			//{
-			//	var line = new Line()
-			//	{
-			//		X2 = 1,
-			//		Stretch = Stretch.Fill,
-			//		Stroke = new SolidColorBrush(Colors.Black),
-			//		StrokeThickness = 10,
-			//		VerticalAlignment = VerticalAlignment.Bottom,
-			//	};
-			//	Grid.SetColumnSpan(line, CellHeight);
-			//	Grid.SetRowSpan(line, h);
-			//	this.Children.Add(line);
-			//}
 		}
 	}
 }

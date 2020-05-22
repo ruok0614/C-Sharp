@@ -14,6 +14,7 @@ namespace TickTackToe.Models
         // publicはだめイベントぷとぱてぃ使う。あとaddで追加するようにする。
         public event Action gameFinished;
         public event Action gameDrawed;
+        public event Action boardChanged;
         private const int ARRANGEMENT_NUMBER = 3;
         private readonly TicTacBoard board;
         private bool isFinish = false;
@@ -67,6 +68,7 @@ namespace TickTackToe.Models
             this.board.Initialize();
             this.isFinish = false;
             this.active = TicTacPiece.Type.Round;
+            boardChanged?.Invoke();
         }
 
         /// <summary>
@@ -104,15 +106,16 @@ namespace TickTackToe.Models
 
             if (this.IsFinish(x, y, piece))
             {
-               this.gameFinished.Invoke();
+                this.boardChanged?.Invoke();
+                this.gameFinished?.Invoke();
                 return;
             }
             if (this.IsDraw())
             {
-                this.gameDrawed.Invoke();
+                this.boardChanged?.Invoke();
+                this.gameDrawed?.Invoke();
                 return;
             }
-
             if (this.active == TicTacPiece.Type.Cross)
             {
                 this.active = TicTacPiece.Type.Round;
@@ -121,7 +124,7 @@ namespace TickTackToe.Models
             {
                 this.active = TicTacPiece.Type.Cross;
             }
-
+            boardChanged?.Invoke();
         }
 
         /// <summary>
@@ -130,7 +133,7 @@ namespace TickTackToe.Models
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public bool IsSetPiece(int x, int y)
+        public bool CanSetPiece(int x, int y)
         {
             return this.board.GetPiece(x, y).Content == TicTacPiece.Type.None;
         }

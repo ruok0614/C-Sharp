@@ -8,6 +8,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -67,11 +68,12 @@ namespace TickTackToe
                     // ナビゲーションの履歴スタックが復元されていない場合、最初のページに移動します。
                     // このとき、必要な情報をナビゲーション パラメーターとして渡して、新しいページを
                     // 作成します
-                    rootFrame.Navigate(typeof(GamePage), e.Arguments);
+                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
                 }
                 // 現在のウィンドウがアクティブであることを確認します
                 Window.Current.Activate();
             }
+            SystemNavigationManager.GetForCurrentView().BackRequested += BackRequested;
         }
 
         /// <summary>
@@ -82,6 +84,21 @@ namespace TickTackToe
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+        }
+
+        private void BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            Frame frame = Window.Current.Content as Frame;
+            if(frame == null)
+            {
+                return;
+            }
+
+            if(frame.CanGoBack && e.Handled == false)
+            {
+                e.Handled = true;
+                frame.GoBack();
+            }
         }
 
         /// <summary>
