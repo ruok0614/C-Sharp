@@ -77,7 +77,7 @@ namespace TickTackToe.Models
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="type"></param>
-        public void SetPiece(int x, int y, TicTacPiece.Type type)
+        public void SetPiece(int x, int y)
         {
             if(this.active == TicTacPiece.Type.None || this.isFinish)
             {
@@ -85,7 +85,7 @@ namespace TickTackToe.Models
             }
 
             var piece = null as TicTacPiece;
-            switch(type)
+            switch(Active)
             {
                 case TicTacPiece.Type.None:
                     piece = TicTacPiece.CreateNone();

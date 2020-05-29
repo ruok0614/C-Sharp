@@ -121,6 +121,7 @@
     </Compile>
     <Compile Include="Models\GameFacilitator.cs" />
     <Compile Include="Models\Board\TicTacToeBoard.cs" />
+    <Compile Include="Models\IInputHandler.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\support\DelegateCommandT.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
@@ -159,9 +160,6 @@
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Views\Images\batu.png" />
-    <Content Include="Views\Images\character_game_reversi.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Views\Images\maru.png" />
   </ItemGroup>
   <ItemGroup>

@@ -161,7 +161,7 @@ namespace TickTacToe.ViewModels
 			return new DelegateCommandT<(int, int)>(
 				(xy) =>
 				{
-					this.gameFacilitator.SetPiece(xy.Item1, xy.Item2, Active);
+					this.gameFacilitator.SetPiece(xy.Item1, xy.Item2);
 				},
 				(xy) =>
 				{
@@ -176,7 +176,7 @@ namespace TickTacToe.ViewModels
 				(xy) =>
 				{
 
-					this.gameFacilitator.SetPiece(xy.Item1, xy.Item2, Active);
+					this.gameFacilitator.SetPiece(xy.Item1, xy.Item2);
 
 
 					if(this.gameFacilitator.IsFinish())
@@ -196,7 +196,7 @@ namespace TickTacToe.ViewModels
 						}
 					}
 					var randomNumber = new Random().Next(0,settableList.Count);
-					this.gameFacilitator.SetPiece(settableList[randomNumber].x, settableList[randomNumber].y, Active);
+					this.gameFacilitator.SetPiece(settableList[randomNumber].x, settableList[randomNumber].y);
 				},
 				(xy) =>
 				{
