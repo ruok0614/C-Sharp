@@ -15,9 +15,49 @@
 			<RowDefinition Height="1*"/>
 			<RowDefinition Height="1*"/>
 		</Grid.RowDefinitions>
-		<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="三目並べ" TextWrapping="NoWrap" TextAlignment="Center" FontSize="100"/>
-		<Button Command="{Binding PvPCommand}" Content="VS プレイヤー" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center" Height="70" Width="320" FontSize="30" FontWeight="Bold"/>
-		<Button Command="{Binding PvCCommand}" Content="VS CPU"  HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Center" Height="70" Width="320" FontSize="30" FontWeight="Bold"/>
+		<Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+			<TextBlock HorizontalAlignment="Left" Text="○✕ゲーム" TextWrapping="NoWrap" TextAlignment="Center" FontSize="100" />
+		</Grid>
+
+		<!--<Button Command="{Binding PvPCommand}" Content="VS プレイヤー" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center" Height="70" Width="320" FontSize="30" FontWeight="Bold"/>
+		<Button Command="{Binding PvCCommand}" Content="VS CPU"  HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Center" Height="70" Width="320" FontSize="30" FontWeight="Bold"/>-->
+		<Button Command="{Binding GameStartCommand}" Content="スタート"  HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Center" Height="70" Width="320" FontSize="30" FontWeight="Bold"/>
+		<Grid Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="0.5*"/>
+				<ColumnDefinition Width="1*"/>
+				<ColumnDefinition Width="1*"/>
+				<ColumnDefinition Width="1*"/>
+				<ColumnDefinition Width="1*"/>
+				<ColumnDefinition Width="1*"/>
+				<ColumnDefinition Width="0.5*"/>
+			</Grid.ColumnDefinitions>
+			<ComboBox x:Name="length" ItemsSource="{Binding PieceLength}"  SelectedIndex="0" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="2">
+			</ComboBox>
+			<ComboBox x:Name="winNum" ItemsSource="{Binding WinNumber}" SelectedIndex="0" FontSize="30"  VerticalAlignment="Center" Grid.Column="5" Margin="13,0,0,0">
+			</ComboBox>
+			<TextBlock Grid.Column="1" HorizontalAlignment="Right" Text="マス数：" FontSize="40" TextWrapping="NoWrap"  VerticalAlignment="Center" FontWeight="Bold"/>
+			<TextBlock Grid.Column="4" HorizontalAlignment="Right" Text="X並べ：" FontSize="40" TextWrapping="NoWrap"  VerticalAlignment="Center" FontWeight="Bold"/>
+		</Grid>
+		<Grid Grid.Row="2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="0.2*"/>
+				<ColumnDefinition Width="1*"/>
+				<ColumnDefinition Width="1*"/>
+				<ColumnDefinition Width="0.5*"/>
+				<ColumnDefinition Width="1*"/>
+				<ColumnDefinition Width="1*"/>
+				<ColumnDefinition Width="0.2*"/>
+			</Grid.ColumnDefinitions>
+			<ComboBox x:Name="roundBox" ItemsSource="{Binding PlayerTypes}" 
+           SelectedItem="{Binding SelectedRoundPlayerType}" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="2">
+			</ComboBox>
+			<TextBlock Text="VS" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" FontWeight="Bold"/>
+			<ComboBox x:Name="crossBox"  ItemsSource="{Binding PlayerTypes}"   SelectedItem="{Binding SelectedCrossPlayerType}" FontSize="30"  VerticalAlignment="Center" Grid.Column="5">
+			</ComboBox>
+			<TextBlock Grid.Column="1" HorizontalAlignment="Right" Text="〇：" FontSize="40" TextWrapping="Wrap"  VerticalAlignment="Center" FontWeight="Bold"/>
+			<TextBlock Grid.Column="4" HorizontalAlignment="Right" Text="✕：" FontSize="40" TextWrapping="Wrap"  VerticalAlignment="Center" FontWeight="Bold"/>
+		</Grid>
 	</Grid>
 
 </Page>

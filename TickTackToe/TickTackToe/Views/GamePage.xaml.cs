@@ -28,9 +28,8 @@ namespace TickTackToe.Views
     public sealed partial class GamePage : Page
     {
 
-        public int CellHeight { get; } = 5;
-        public int CellWidth{ get; } = 5;
-
+        public int CellHeight { get; private set; } = 3;
+        public int CellWidth{ get; private set; } = 3;
 
         public GameViewModel ViewModel { get; }
 
@@ -58,17 +57,31 @@ namespace TickTackToe.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            this.ViewModel.StartGame((GameType)e.Parameter);
+            try {
 
-            if(Frame.CanGoBack)
-            {
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-            }
-            else
-            {
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-            }
+                var para = e.Parameter;
 
+                if(para is ValueTuple<object, object, int,int> a)
+                {
+                    this.CellHeight = a.Item3;
+                    this.CellWidth = a.Item3;
+                    this.ViewModel.StartGame((PlayerType)a.Item1, (PlayerType)a.Item2, a.Item3, a.Item4);
+                }
+
+
+                if (Frame.CanGoBack)
+                {
+                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+                }
+                else
+                {
+                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+                }
+            }
+            catch
+            {
+
+            }
             base.OnNavigatedTo(e);
         }
     }

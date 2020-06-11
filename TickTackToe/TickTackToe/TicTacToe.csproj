@@ -119,8 +119,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\CpuPlayer.cs" />
     <Compile Include="Models\GameFacilitator.cs" />
     <Compile Include="Models\Board\TicTacToeBoard.cs" />
+    <Compile Include="Models\GuiPlayler.cs" />
     <Compile Include="Models\IInputHandler.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\support\DelegateCommandT.cs" />
@@ -144,6 +146,7 @@
     <Compile Include="Models\Piece\TicTacPiece.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\Messengers\DialogService.cs" />
+    <Compile Include="Views\PlayerType.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

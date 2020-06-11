@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using TickTackToe.Models;
 using TickTackToe.Views;
+using TickTacToe.Models;
 using TickTacToe.ViewModels.support;
 using TickTacToe.Views;
 using TickTacToe.Views.Messengers;
@@ -26,19 +27,20 @@ namespace TickTacToe.ViewModels
 		private ICommand setPiaceCommand;
 		private DelegateCommand startCommand;
 		private DialogService dialogService;
-	
+		private IInputHandler roundPlayer;
+		private IInputHandler crossPlayer;
 
 		#region プロパティ
 
-		public int Widrh { get; }
-		public int Height { get; }
+		public int Widrh { get; private set ; }
+		public int Height { get; private set; }
 
 		/// <summary>
 		/// 現在アクティブな駒を取得します。
 		/// </summary>
 		public TicTacPiece.Type Active
 		{
-			get => gameFacilitator.Active;
+			get => gameFacilitator == null ? TicTacPiece.Type.None: gameFacilitator.Active;
 		}
 
 		/// <summary>
@@ -46,7 +48,7 @@ namespace TickTacToe.ViewModels
 		/// </summary>
 		public NotifyBoard Board
 		{
-			get => NotifyBoard.Create(gameFacilitator.Board);
+			get => Active == TicTacPiece.Type.None ? null:NotifyBoard.Create(gameFacilitator.Board);
 		}
 
 
@@ -86,10 +88,6 @@ namespace TickTacToe.ViewModels
 
 			this.Widrh = width;
 			this.Height = height;
-			this.gameFacilitator = new GameFacilitator(width, height);
-			this.gameFacilitator.gameFinished += GameFinished;
-			this.gameFacilitator.gameDrawed += GameDrawed;
-			this.gameFacilitator.boardChanged += BoardPropertyChanged;
 		}
 
 		/// <summary>
@@ -101,20 +99,40 @@ namespace TickTacToe.ViewModels
 			this.View = gemePage;
 		}
 
-		public void StartGame(GameType gameType)
+		public void StartGame(PlayerType round,PlayerType cross,int length,int winNumber)
 		{
-			switch(gameType)
+			switch (round)
 			{
-				case GameType.PvP:
-					this.SetPiaceCommand = this.SetPiecePvP();
+				case PlayerType.CPU:
+					roundPlayer = new CpuPlayer();
 					break;
-				case GameType.PvC:
-					this.SetPiaceCommand = this.SetPiecePvC();
+				case PlayerType.Player:
+					roundPlayer = new GuiPlayler();
 					break;
-				case GameType.Com:
-					// TODO 課題3で実装
+				default:
 					break;
 			}
+			switch (cross)
+			{
+				case PlayerType.CPU:
+					crossPlayer = new CpuPlayer();
+					break;
+				case PlayerType.Player:
+					crossPlayer = new GuiPlayler();
+					break;
+				default:
+					break;
+			}
+			this.Widrh = length;
+			this.Height = length;
+			this.RaisePropertyChanged(nameof(Height));
+			this.RaisePropertyChanged(nameof(Widrh));
+			this.SetPiaceCommand = this.SetPieceCommand();
+
+			this.gameFacilitator = new GameFacilitator(this.Widrh, this.Height, this.roundPlayer, this.crossPlayer, winNumber);
+			this.gameFacilitator.gameFinished += GameFinished;
+			this.gameFacilitator.gameDrawed += GameDrawed;
+			this.gameFacilitator.boardChanged += BoardPropertyChanged;
 			this.gameFacilitator.Start();
 		}
 
@@ -156,12 +174,25 @@ namespace TickTacToe.ViewModels
 			this.dialogService.ShowMessage("ゲーム終了", $"引き分けです．");
 		}
 
-		private ICommand SetPiecePvP()
+		private ICommand SetPieceCommand()
 		{
 			return new DelegateCommandT<(int, int)>(
 				(xy) =>
 				{
-					this.gameFacilitator.SetPiece(xy.Item1, xy.Item2);
+					var player = null as GuiPlayler;
+
+					switch (Active)
+					{
+						case TicTacPiece.Type.None:
+							break;
+						case TicTacPiece.Type.Cross:
+							player = (GuiPlayler)this.crossPlayer;
+							break;
+						case TicTacPiece.Type.Round:
+							player = (GuiPlayler)this.roundPlayer;
+							break;
+					}
+					player.CommandExcuted(xy.Item1,xy.Item2);
 				},
 				(xy) =>
 				{
@@ -169,41 +200,5 @@ namespace TickTacToe.ViewModels
 				}
 				);
 		}
-
-		private ICommand SetPiecePvC()
-		{
-			return new DelegateCommandT<(int, int)>(
-				(xy) =>
-				{
-
-					this.gameFacilitator.SetPiece(xy.Item1, xy.Item2);
-
-
-					if(this.gameFacilitator.IsFinish())
-					{
-						return;
-					}
-
-					var settableList = new List<(int x,int y )>();
-					for(int x = 0; x < this.Widrh; x++)
-					{
-						for(int y = 0; y < this.Height; y++)
-						{
-							if(this.gameFacilitator.CanSetPiece(x, y))
-							{
-								settableList.Add((x, y));
-							}
-						}
-					}
-					var randomNumber = new Random().Next(0,settableList.Count);
-					this.gameFacilitator.SetPiece(settableList[randomNumber].x, settableList[randomNumber].y);
-				},
-				(xy) =>
-				{
-					return gameFacilitator.CanSetPiece(xy.Item1, xy.Item2);
-				}
-				);
-		}
-
 	}
 }

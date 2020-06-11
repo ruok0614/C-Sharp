@@ -24,6 +24,11 @@ namespace TickTackToe.Models
             }
         }
 
+        public bool CanSetPiece(int x, int y)
+        {
+            return this.board[y, x].Content == TicTacPiece.Type.None;
+        }
+
         public override bool SetPeace(int x, int y, IPiece<TicTacPiece.Type> piece)
         {
             if(GetPiece(x, y).Content != TicTacPiece.Type.None)

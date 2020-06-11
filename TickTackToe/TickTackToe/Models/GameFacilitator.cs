@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TickTacToe.Models;
 
 namespace TickTackToe.Models
 {
@@ -15,9 +16,11 @@ namespace TickTackToe.Models
         public event Action gameFinished;
         public event Action gameDrawed;
         public event Action boardChanged;
-        private const int ARRANGEMENT_NUMBER = 3;
         private readonly TicTacBoard board;
         private bool isFinish = false;
+        private IInputHandler roundPlayer;
+        private IInputHandler crossPlayer;
+
         private TicTacPiece.Type active = TicTacPiece.Type.None;
 
         /// <summary>
@@ -25,19 +28,31 @@ namespace TickTackToe.Models
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public GameFacilitator(int width, int height)
+        public GameFacilitator(int width, int height,IInputHandler round ,IInputHandler cross,int winNum)
         {
-            this.board = new TicTacBoard(width, height); 
+            this.board = new TicTacBoard(width, height);
+            this.roundPlayer = round;
+            this.crossPlayer = cross;
+            this.WinNumber = winNum;
         }
 
+// TODO セットの関数を抜いたReadOnlyのインターフェース切ってそれを返す
         public IPiece<TicTacPiece.Type>[,] Board
         {
             get => this.board.board;
         }
+        /// <summary>
+        /// 勝利判定数を取得します。
+        /// </summary>
+        public int WinNumber { get; private set; }
 
+        /// <summary>
+        /// ゲームが終了したかどうかを取得します。
+        /// </summary>
+        /// <returns></returns>
         public bool IsFinish()
         {
-            return isFinish;
+            return this.isFinish;
         }
 
         /// <summary>
@@ -63,12 +78,31 @@ namespace TickTackToe.Models
         /// ゲームをスタートします。
         /// ○×ゲームでは必ず先行が○になります。
         /// </summary>
-        public void Start()
+        public async Task Start()
         {
             this.board.Initialize();
             this.isFinish = false;
             this.active = TicTacPiece.Type.Round;
             boardChanged?.Invoke();
+
+            while (!this.isFinish)
+            {
+                var x = 0;
+                var y = 0;
+
+                switch (Active)
+                {
+                    case TicTacPiece.Type.None:
+                        break;
+                    case TicTacPiece.Type.Cross:
+                        (x, y) = await crossPlayer.GetPoint(this.board);
+                        break;
+                    case TicTacPiece.Type.Round:
+                        (x, y) = await roundPlayer.GetPoint(this.board);
+                        break;
+                }
+                this.SetPiece(x, y);
+            }
         }
 
         /// <summary>
@@ -135,7 +169,7 @@ namespace TickTackToe.Models
         /// <returns></returns>
         public bool CanSetPiece(int x, int y)
         {
-            return this.board.GetPiece(x, y).Content == TicTacPiece.Type.None;
+            return this.board.CanSetPiece(x, y);
         }
 
         /// <summary>
@@ -173,32 +207,39 @@ namespace TickTackToe.Models
         private bool IsFinish(int x, int y, TicTacPiece piece)
         {
 
-            for (var d = 0; d < TicTacBoard.DIRECTION_NUM; d++)
+            for (var d = 0; d < TicTacBoard.DIRECTION_NUM/2; d++)
             {
-                var xx = x;
-                var yy = y;
-                xx += TicTacBoard.ALL_DIRECTION[d, TicTacBoard.X];
-                yy += TicTacBoard.ALL_DIRECTION[d, TicTacBoard.Y];
-                if (this.CheckIndexOutOrNone(xx, yy))
-                {
-                    continue;
-                }
+                
                 var count = 1;
-                while (piece.Content == this.board.GetPiece(xx,yy).Content)
+                foreach (int fc in new int[] { 1,-1})
                 {
-                    count++;
-                    xx += TicTacBoard.ALL_DIRECTION[d, TicTacBoard.X];
-                    yy += TicTacBoard.ALL_DIRECTION[d, TicTacBoard.Y];
-                    if(count == ARRANGEMENT_NUMBER)
-                    {
-                        this.isFinish = true;
-                        return true;
-                    }
+                    var xx = x;
+                    var yy = y;
+                    xx += TicTacBoard.ALL_DIRECTION[d, TicTacBoard.X] * fc;
+                    yy += TicTacBoard.ALL_DIRECTION[d, TicTacBoard.Y] * fc;
+
                     if (this.CheckIndexOutOrNone(xx, yy))
                     {
-                        break;
+                        continue;
+                    }
+                    while (piece.Content == this.board.GetPiece(xx, yy).Content)
+                    {
+                        count++;
+                        xx += TicTacBoard.ALL_DIRECTION[d, TicTacBoard.X]*fc;
+                        yy += TicTacBoard.ALL_DIRECTION[d, TicTacBoard.Y]*fc;
+                        if (count >= WinNumber)
+                        {
+                            this.isFinish = true;
+                            return true;
+                        }
+                        if (this.CheckIndexOutOrNone(xx, yy))
+                        {
+                            break;
+                        }
                     }
                 }
+
+               
             }
             return false;
         }

@@ -14,7 +14,7 @@ namespace TickTacToe.ViewModels.support
 	/// </summary>
 	public class NotifyBoard: INotifyPropertyChanged
 	{
-
+		//　ここもIreadOnryを使う
 		public static NotifyBoard Create(IPiece<TicTacPiece.Type>[,] board)
 		{
 			return new NotifyBoard(board);
