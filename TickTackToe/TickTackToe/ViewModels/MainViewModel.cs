@@ -19,7 +19,7 @@ namespace TickTacToe.ViewModels
 		private ICommand navigateCommand;
 
 		public MainPage View { get; private set; } = null;
-		public ObservableCollection<string> PlayerTypes { get; } = new ObservableCollection<string> { PlayerType.CPU.ToString(), PlayerType.Player.ToString() };
+		public ObservableCollection<string> PlayerTypes { get; } = new ObservableCollection<string> { PlayerType.CPU.ToString(), PlayerType.Player.ToString(), PlayerType.StrongCPU.ToString() };
 		public ObservableCollection<int> PieceLength { get; } = new ObservableCollection<int> {3,4,5,6,7,8,9,10};
 		public ObservableCollection<int> WinNumber { get; } = new ObservableCollection<int> { 3, 4, 5, 6, 7, 8 };
 

@@ -12,6 +12,6 @@ namespace TickTacToe.Models
     /// </summary>
     public interface IInputHandler
     {
-        Task<(int, int)> GetPoint(TicTacBoard board);
+        Task<(int, int)> GetPoint(TicTacBoard board, TicTacPiece.Type active);
     }
 }

@@ -95,10 +95,10 @@ namespace TickTackToe.Models
                     case TicTacPiece.Type.None:
                         break;
                     case TicTacPiece.Type.Cross:
-                        (x, y) = await crossPlayer.GetPoint(this.board);
+                        (x, y) = await crossPlayer.GetPoint(this.board,this.active);
                         break;
                     case TicTacPiece.Type.Round:
-                        (x, y) = await roundPlayer.GetPoint(this.board);
+                        (x, y) = await roundPlayer.GetPoint(this.board, this.active);
                         break;
                 }
                 this.SetPiece(x, y);

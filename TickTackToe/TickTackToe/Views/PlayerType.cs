@@ -9,6 +9,7 @@ namespace TickTacToe.Views
 	public enum PlayerType
 	{
 		Player,
-		CPU
+		CPU,
+		StrongCPU
 	}
 }

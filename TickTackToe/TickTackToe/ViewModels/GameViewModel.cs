@@ -12,6 +12,7 @@ using System.Windows.Input;
 using TickTackToe.Models;
 using TickTackToe.Views;
 using TickTacToe.Models;
+using TickTacToe.Models.Player;
 using TickTacToe.ViewModels.support;
 using TickTacToe.Views;
 using TickTacToe.Views.Messengers;
@@ -109,6 +110,9 @@ namespace TickTacToe.ViewModels
 				case PlayerType.Player:
 					roundPlayer = new GuiPlayler();
 					break;
+				case PlayerType.StrongCPU:
+					roundPlayer = new StrongCpuPlayer();
+					break;
 				default:
 					break;
 			}
@@ -119,6 +123,9 @@ namespace TickTacToe.ViewModels
 					break;
 				case PlayerType.Player:
 					crossPlayer = new GuiPlayler();
+					break;
+				case PlayerType.StrongCPU:
+					crossPlayer = new StrongCpuPlayer();
 					break;
 				default:
 					break;
